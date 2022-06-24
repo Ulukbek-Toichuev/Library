@@ -6,3 +6,9 @@ type Book struct {
 	BookTitle  string `json:"title"`
 	ISBN       string `json:"isbn"`
 }
+
+type UsersBooks struct {
+	id     int
+	UserID int
+	BookID int
+}

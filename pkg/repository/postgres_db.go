@@ -2,10 +2,10 @@ package repository
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
 )
 
 type Config struct {
@@ -21,13 +21,15 @@ func NewPostgresDB(cfg *Config) (*sqlx.DB, error) {
 	db, err := sqlx.Connect("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		cfg.Host, cfg.Port, cfg.Username, cfg.DBname, cfg.Password, cfg.SSLMode))
 	if err != nil {
-		log.Fatalf("Error, cant connect to database: %s", err.Error())
+		logrus.Fatalf("Error, cant connect to database: %s", err.Error())
 		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
 		return nil, err
+	} else {
+		logrus.Println("We succesfully connected to db!")
 	}
 
 	return db, nil

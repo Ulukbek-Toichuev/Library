@@ -1,0 +1,9 @@
+package handler
+
+type Error struct {
+	Message string `json:"message"`
+}
+
+func (e *Error) ErrorResponse() {
+
+}
