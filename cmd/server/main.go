@@ -16,12 +16,21 @@ func main() {
 		log.Fatalf("Error occured read config file: %s", err.Error())
 	}
 
-	repos := repository.NewRepository()
+	db, err := repository.NewPostgresDB(&repository.Config{
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		Username: viper.GetString("db.username"),
+		DBname:   viper.GetString("db.dbname"),
+		Password: viper.GetString("db.password"),
+		SSLMode:  viper.GetString("db.sslmode"),
+	})
+
+	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 
 	srv := new(server.Server)
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+	if err = srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		log.Fatalf("Error occured while running http server: %s", err.Error())
 	}
 }

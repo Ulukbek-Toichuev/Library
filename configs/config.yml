@@ -1,8 +1,9 @@
 port: "8080"
 
 db:
-  username: ""
-  host: ""
-  port: ""
-  dbname: ""
-  sslmode: ""
+  username: "uluk"
+  host: "192.168.31.109"
+  port: "5432"
+  dbname: "book_shop"
+  password: "rewq_1424"
+  sslmode: "disable"
