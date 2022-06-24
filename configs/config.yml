@@ -1,4 +1,4 @@
-port: "5432"
+port: "8080"
 
 db:
   username: ""
