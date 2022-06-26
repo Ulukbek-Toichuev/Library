@@ -7,6 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user entity.User) (int, error)
+	GetUser(userName, userSurname, userPasswd string) (entity.User, error)
 }
 
 type Book interface {

@@ -7,6 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user entity.User) (int, error)
+	GenerateTokem(userName, userSurname, userPasswd string) (string, error)
 }
 
 type Book interface {
