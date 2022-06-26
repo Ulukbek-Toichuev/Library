@@ -11,11 +11,13 @@ import (
 
 func main() {
 
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+
 	if err := initConfig(); err != nil {
 		logrus.Fatalf("Error occured read config file %s", err.Error())
 	}
 
-	db, err := repository.NewPostgresDB(&repository.Config{
+	db, err := repository.NewPostgresDB(repository.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),

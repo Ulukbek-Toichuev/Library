@@ -8,6 +8,12 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+const (
+	BookTable      = "book"
+	UsersTable     = "users"
+	UsersBookTable = "users_book"
+)
+
 type Config struct {
 	Host     string
 	Port     string
@@ -17,8 +23,8 @@ type Config struct {
 	SSLMode  string
 }
 
-func NewPostgresDB(cfg *Config) (*sqlx.DB, error) {
-	db, err := sqlx.Connect("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
+func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
+	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		cfg.Host, cfg.Port, cfg.Username, cfg.DBname, cfg.Password, cfg.SSLMode))
 	if err != nil {
 		logrus.Fatalf("Error, cant connect to database: %s", err.Error())
