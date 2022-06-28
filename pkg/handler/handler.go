@@ -23,15 +23,18 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	}
 
-	api := router.Group("/api")
+	api := router.Group("/api", h.userIdentity)
 	{
 		book := api.Group("/book")
 		{
 			book.GET("/", h.GetAllBook)
 			book.GET("/:id", h.GetBookByID)
-			book.POST("/", h.AddBook)
 			book.DELETE("/:id", h.DeleteBook)
 			book.PUT("/:id", h.AddBook)
+			admin := book.Group("/admin", h.userIdentity)
+			{
+				admin.POST("/", h.AddBook)
+			}
 		}
 	}
 

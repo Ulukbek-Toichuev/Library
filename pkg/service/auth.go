@@ -2,6 +2,7 @@ package service
 
 import (
 	"crypto/sha1"
+	"errors"
 	"fmt"
 	"time"
 
@@ -14,7 +15,7 @@ import (
 const (
 	salt       = "kjdfa548521593asdtgnxcvbu"
 	signingKey = "vdznfgjawguqpasd3984oreoyqaw21657fqwd"
-	tokenTTL   = 12 * time.Hour
+	tokenTTL   = 10 * time.Hour
 )
 
 type tokenClaims struct {
@@ -36,8 +37,8 @@ func (auth *AuthService) CreateUser(user entity.User) (int, error) {
 	return auth.repo.CreateUser(user)
 }
 
-func (auth *AuthService) GenerateTokem(userName, userSurname, userPasswd string) (string, error) {
-	user, err := auth.repo.GetUser(userName, userSurname, generateUserPasswd(userPasswd))
+func (auth *AuthService) GenerateTokem(nickname, userPasswd string) (string, error) {
+	user, err := auth.repo.GetUser(nickname, generateUserPasswd(userPasswd))
 	if err != nil {
 		logrus.Println("Error in function \"GenerateTokem\"")
 		return "", err
@@ -54,9 +55,42 @@ func (auth *AuthService) GenerateTokem(userName, userSurname, userPasswd string)
 	return token.SignedString([]byte(signingKey))
 }
 
+func (auth *AuthService) ParseToken(accessToken string) (int, error) {
+
+	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("invalid signing method")
+		}
+
+		return []byte(signingKey), nil
+	})
+
+	if err != nil {
+		return 0, nil
+	}
+
+	claims, ok := token.Claims.(*tokenClaims)
+
+	if !ok {
+		return 0, errors.New("token claims are not of type *tokenClaims")
+	}
+
+	return claims.UserId, nil
+}
+
 func generateUserPasswd(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))
 
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
+}
+
+func (auth *AuthService) GetUserByName(id int) (entity.User, error) {
+	var user entity.User
+
+	user, err := auth.repo.GetUserByName(id)
+	if err != nil {
+		logrus.Fatal(err.Error(), " func GetUserByName")
+	}
+	return user, nil
 }

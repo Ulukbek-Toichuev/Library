@@ -7,10 +7,13 @@ import (
 
 type Authorization interface {
 	CreateUser(user entity.User) (int, error)
-	GenerateTokem(userName, userSurname, userPasswd string) (string, error)
+	GenerateTokem(nickname, userPasswd string) (string, error)
+	ParseToken(token string) (int, error)
+	GetUserByName(id int) (entity.User, error)
 }
 
 type Book interface {
+	AddBook(userId int, book entity.Book) (int, error)
 }
 
 type Service struct {
@@ -21,5 +24,6 @@ type Service struct {
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repo.Authorization),
+		Book:          NewBookService(repo.Book),
 	}
 }

@@ -7,10 +7,12 @@ import (
 
 type Authorization interface {
 	CreateUser(user entity.User) (int, error)
-	GetUser(userName, userSurname, userPasswd string) (entity.User, error)
+	GetUser(nickname, userPasswd string) (entity.User, error)
+	GetUserByName(id int) (entity.User, error)
 }
 
 type Book interface {
+	AddBook(userId int, book entity.Book) (int, error)
 }
 
 type Repository struct {
@@ -21,5 +23,6 @@ type Repository struct {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		Book:          NewBookPostgres(db),
 	}
 }

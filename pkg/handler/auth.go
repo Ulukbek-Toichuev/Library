@@ -10,8 +10,7 @@ import (
 //Два обработчика для регистрации и аутентификации пользователя
 
 type signInInput struct {
-	UserName     string `json:"username" binding:"required"`
-	UserSurName  string `json:"usersurname" binding:"required"`
+	Nickname     string `json:"nickname" binding:"required"`
 	UserPassword string `json:"password" binding:"required"`
 }
 
@@ -26,20 +25,20 @@ func (h *Handler) SignIn(c *gin.Context) {
 		return
 	}
 
-	token, err := h.services.GenerateTokem(input.UserName, input.UserSurName, input.UserPassword)
+	token, err := h.services.GenerateTokem(input.Nickname, input.UserPassword)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": token,
+		"id":       token,
+		"nickname": input.Nickname,
 	})
 
 }
 
 //Обработчик для регистрации
-
 func (h *Handler) SignUp(c *gin.Context) {
 	//Для записи данных из JSON от пользователей
 	var input entity.User
