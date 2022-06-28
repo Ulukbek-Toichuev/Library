@@ -35,33 +35,34 @@ func (h *Handler) GetBookByID(c *gin.Context) {
 func (h *Handler) AddBook(c *gin.Context) {
 
 	var input entity.Book
+
 	UserId, err := getUserID(c)
 	if err != nil {
 		return
 	}
 
-	user, err := h.checkUser(c, UserId)
-	if err != nil {
-		newErrorResponse(c, http.StatusForbidden, "Only admin can add book")
-	} else {
-
-		if err := c.BindJSON(&input); err != nil {
-			newErrorResponse(c, http.StatusBadRequest, "Check your request body")
-			return
-		}
-
-		id, err := h.services.AddBook(UserId, input)
-		if err != nil {
-			logrus.Println(err.Error())
-		}
-
-		c.JSON(http.StatusOK, map[string]interface{}{
-			"nick":   user,
-			"id":     id,
-			"Status": "You can add books",
-		})
-
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "Check your request body")
+		return
 	}
+
+	id, user, err := h.services.AddBook(UserId, input)
+	if err != nil {
+		logrus.Println(err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, "Check your request body, server dont understand your shit")
+		return
+	}
+
+	if user.Nickname != "admin" {
+		newErrorResponse(c, http.StatusForbidden, "Permission denied, only admin can add books")
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id":        id,
+		"user nick": user.Nickname,
+		"Status":    "You can add books",
+	})
 }
 
 func (h *Handler) DeleteBook(c *gin.Context) {

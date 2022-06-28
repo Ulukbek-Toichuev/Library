@@ -16,6 +16,7 @@ func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
 	return &AuthPostgres{db: db}
 }
 
+//Query for creating user
 func (ap *AuthPostgres) CreateUser(user entity.User) (int, error) {
 	var id int
 
@@ -23,13 +24,14 @@ func (ap *AuthPostgres) CreateUser(user entity.User) (int, error) {
 
 	row := ap.db.QueryRow(query, user.UserName, user.UserSurName, user.Nickname, user.UserPassword)
 	if err := row.Scan(&id); err != nil {
-		logrus.Fatal(err.Error())
+		logrus.Println(err.Error())
 		return 0, err
 	}
 
 	return id, nil
 }
 
+//Query for get users id
 func (ap *AuthPostgres) GetUser(nickname, userPasswd string) (entity.User, error) {
 	var user entity.User
 
@@ -39,6 +41,7 @@ func (ap *AuthPostgres) GetUser(nickname, userPasswd string) (entity.User, error
 	return user, err
 }
 
+//Query for get users nickname
 func (ap *AuthPostgres) GetUserByName(id int) (entity.User, error) {
 	var user entity.User
 

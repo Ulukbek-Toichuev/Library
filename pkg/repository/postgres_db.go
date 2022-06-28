@@ -8,12 +8,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+//Tables in database
 const (
 	BookTable      = "book"
 	UsersTable     = "users"
 	UsersBookTable = "users_book"
 )
 
+//Config struct for connect database
 type Config struct {
 	Host     string
 	Port     string
@@ -23,6 +25,7 @@ type Config struct {
 	SSLMode  string
 }
 
+//Method for create connection with database
 func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		cfg.Host, cfg.Port, cfg.Username, cfg.DBname, cfg.Password, cfg.SSLMode))

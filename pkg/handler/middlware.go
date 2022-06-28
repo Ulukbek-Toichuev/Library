@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -53,17 +52,4 @@ func getUserID(c *gin.Context) (int, error) {
 
 	return intID, nil
 
-}
-
-func (h *Handler) checkUser(c *gin.Context, id int) (string, error) {
-	user, err := h.services.GetUserByName(id)
-	if err != nil {
-		logrus.Println(err.Error())
-	}
-
-	if user.Nickname != "admin" {
-		return user.Nickname, errors.New("Not admin")
-	}
-
-	return user.Nickname, nil
 }

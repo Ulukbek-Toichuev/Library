@@ -13,7 +13,7 @@ func NewBookService(repo repository.Book) *BookService {
 	return &BookService{repo: repo}
 }
 
-func (b *BookService) AddBook(userId int, book entity.Book) (int, error) {
+func (b *BookService) AddBook(userId int, book entity.Book) (int, entity.User, error) {
 
 	return b.repo.AddBook(userId, book)
 }

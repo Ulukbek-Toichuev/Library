@@ -13,7 +13,7 @@ type Authorization interface {
 }
 
 type Book interface {
-	AddBook(userId int, book entity.Book) (int, error)
+	AddBook(userId int, book entity.Book) (int, entity.User, error)
 }
 
 type Service struct {
