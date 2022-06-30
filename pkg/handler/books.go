@@ -18,12 +18,20 @@ type Book struct {
 	BookTitle  string `json:"title" binding:"required"`
 }
 
-func (h *Handler) GetAllBook(c *gin.Context) {
-	id, _ := c.Get(userIDCTX)
+type getAllBookStruct struct {
+	Data []entity.Book `json:"all books"`
+}
 
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id":     id,
-		"Status": "You can add books",
+func (h *Handler) GetAllBook(c *gin.Context) {
+
+	lists, err := h.services.GetAllBook()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllBookStruct{
+		Data: lists,
 	})
 
 }

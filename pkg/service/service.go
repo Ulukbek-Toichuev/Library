@@ -14,6 +14,7 @@ type Authorization interface {
 
 type Book interface {
 	AddBook(userId int, book entity.Book) (int, entity.User, error)
+	GetAllBook() ([]entity.Book, error)
 }
 
 type Service struct {

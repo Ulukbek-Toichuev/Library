@@ -41,3 +41,17 @@ func (b *BookPostgres) AddBook(userId int, book entity.Book) (int, entity.User, 
 	}
 	return id, user, nil
 }
+
+func (b *BookPostgres) GetAllBook() ([]entity.Book, error) {
+	var bookList []entity.Book
+
+	query := fmt.Sprintf("SELECT author_name, book_title, isbn FROM %s", BookTable)
+
+	err := b.db.Select(&bookList, query)
+	if err != nil {
+		logrus.Println(err.Error(), "FUNC GetAllBook")
+		return nil, err
+	}
+
+	return bookList, err
+}
