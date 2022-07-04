@@ -18,8 +18,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	auth := router.Group("/auth")
 	{
-		auth.POST("/sign-in", h.SignIn)
-		auth.POST("/sign-up", h.SignUp)
+		auth.POST("/sign-in", h.SignIn) // Обработчик для аутентификации
+		auth.POST("/sign-up", h.SignUp) // Обработчик для регистрации
 
 	}
 
@@ -27,13 +27,20 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		book := api.Group("/book")
 		{
-			book.GET("/", h.GetAllBook)
-			book.GET("/:id", h.GetBookByID)
-			book.DELETE("/:id", h.DeleteBook)
-			book.PUT("/:id", h.AddBook)
+			book.GET("/:id", h.GetBookByID)   // Получение книги по ID
+			book.GET("/my", h.GetAllMyBooks)  // Получение всех книг пользователя
+			book.POST("/", h.AddingUsersBook) // Добавление книг в список желаемых пользователя
+			book.DELETE("/:id", h.DeleteBook) //
+			//book.DELETE("/my/:id", h.DeleteOneOfTheUsersBook)
 			admin := book.Group("/admin", h.userIdentity)
 			{
-				admin.POST("/", h.AddBook)
+				admin.POST("/", h.AddBook) // Добавление книг в библиотеку
+				admin.PUT("/:id", h.AddBook)
+			}
+
+			all := book.Group("/all")
+			{
+				all.GET("/", h.GetAllBooks) // Получение всех книг
 			}
 		}
 	}

@@ -21,3 +21,19 @@ func (b *BookService) AddBook(userId int, book entity.Book) (int, entity.User, e
 func (b *BookService) GetAllBook() ([]entity.Book, error) {
 	return b.repo.GetAllBook()
 }
+
+func (b *BookService) GetAllMyBooks(userId int) ([]entity.Book, error) {
+	return b.repo.GetAllMyBooks(userId)
+}
+
+func (b *BookService) AddingUsersBook(userId int, book entity.Book) error {
+	return b.repo.AddingUsersBook(userId, book)
+}
+
+func (b *BookService) GetBookByID(bookID int) (entity.Book, error) {
+	return b.repo.GetBookByID(bookID)
+}
+
+func (b *BookService) DeleteBook(bookID int) error {
+	return b.repo.DeleteBook(bookID)
+}

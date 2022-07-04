@@ -53,3 +53,9 @@ func getUserID(c *gin.Context) (int, error) {
 	return intID, nil
 
 }
+
+func validateToInt(bookId int) int {
+
+	return 0
+
+}

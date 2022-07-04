@@ -14,6 +14,10 @@ type Authorization interface {
 type Book interface {
 	AddBook(userId int, book entity.Book) (int, entity.User, error)
 	GetAllBook() ([]entity.Book, error)
+	GetAllMyBooks(userId int) ([]entity.Book, error)
+	AddingUsersBook(userId int, book entity.Book) error
+	GetBookByID(bookID int) (entity.Book, error)
+	DeleteBook(bookID int) error
 }
 
 type Repository struct {
