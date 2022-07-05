@@ -16,6 +16,7 @@ func NewBookPostgres(db *sqlx.DB) *BookPostgres {
 	return &BookPostgres{db: db}
 }
 
+//SQL запрос на добавление книги
 func (b *BookPostgres) AddBook(userId int, book entity.Book) (int, entity.User, error) {
 	var (
 		id   int
@@ -41,6 +42,7 @@ func (b *BookPostgres) AddBook(userId int, book entity.Book) (int, entity.User, 
 	return id, user, nil
 }
 
+//SQL запрос получение всех книг
 func (b *BookPostgres) GetAllBook() ([]entity.Book, error) {
 	var bookList []entity.Book
 
@@ -54,6 +56,7 @@ func (b *BookPostgres) GetAllBook() ([]entity.Book, error) {
 	return bookList, nil
 }
 
+//SQL запрос на получение книг пользователя
 func (b *BookPostgres) GetAllMyBooks(userId int) ([]entity.Book, error) {
 	var bookList []entity.Book
 
@@ -71,39 +74,38 @@ func (b *BookPostgres) GetAllMyBooks(userId int) ([]entity.Book, error) {
 	return bookList, nil
 }
 
+//SQL запрос на добавление книг в список пользователя
 func (b *BookPostgres) AddingUsersBook(userId int, bookID int) (int, error) {
 	var id int
-	logrus.Println(userId, bookID)
 
 	query := fmt.Sprintf("INSERT INTO %s (user_id, book_id) VALUES ( (SELECT users.id FROM %s WHERE users.id = $1), (SELECT book.id FROM %s WHERE book.id = $2) ) RETURNING id;",
 		UsersBookTable, UsersTable, BookTable)
 
 	rowFromInsert := b.db.QueryRow(query, userId, bookID)
 	if err := rowFromInsert.Scan(&id); err != nil {
-		logrus.Println(err.Error(), "AddingUsersBook()")
 		return 1, err
 	}
 	return id, nil
 }
 
+//SQL запрос на получение книги по ID
 func (b *BookPostgres) GetBookByID(bookID int) (entity.Book, error) {
 	var book entity.Book
 
 	query := fmt.Sprintf("SELECT id, author_name, book_title, isbn FROM %s WHERE id=$1", BookTable)
 
 	if err := b.db.Get(&book, query, bookID); err != nil {
-		logrus.Println(err.Error(), " GetBookByID()")
 		return entity.Book{}, err
 	}
 	return book, nil
 }
 
+//SQL запрос на удаление книги из списка пользователя
 func (b *BookPostgres) DeleteBook(bookID int) error {
 	queryDelete := fmt.Sprintf("DELETE FROM %s WHERE id=$1", UsersBookTable)
 
 	_, err := b.db.Exec(queryDelete, bookID)
 	if err != nil {
-		logrus.Println(err.Error(), " DeleteBook ")
 		return err
 	}
 
