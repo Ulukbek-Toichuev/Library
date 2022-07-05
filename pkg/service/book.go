@@ -26,8 +26,8 @@ func (b *BookService) GetAllMyBooks(userId int) ([]entity.Book, error) {
 	return b.repo.GetAllMyBooks(userId)
 }
 
-func (b *BookService) AddingUsersBook(userId int, book entity.Book) error {
-	return b.repo.AddingUsersBook(userId, book)
+func (b *BookService) AddingUsersBook(userId int, bookID int) (int, error) {
+	return b.repo.AddingUsersBook(userId, bookID)
 }
 
 func (b *BookService) GetBookByID(bookID int) (entity.Book, error) {

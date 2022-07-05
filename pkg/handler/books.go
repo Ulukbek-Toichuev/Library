@@ -138,19 +138,20 @@ func (h *Handler) UpdateteBok(c *gin.Context) {
 }
 
 func (h *Handler) AddingUsersBook(c *gin.Context) {
-	var input entity.Book
+	var input entity.BookID
 
 	UserId, err := getUserID(c)
 	if err != nil {
 		return
 	}
+	logrus.Println(UserId)
 
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "Check your request body")
 		return
 	}
 
-	err = h.services.AddingUsersBook(UserId, input)
+	id, err := h.services.AddingUsersBook(UserId, input.Id)
 	if err != nil {
 		logrus.Println(err.Error())
 		newErrorResponse(c, http.StatusInternalServerError, "Error on the server")
@@ -158,7 +159,7 @@ func (h *Handler) AddingUsersBook(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"Status": "Your book is succesfully added!",
+		"id": id,
 	})
 
 }
