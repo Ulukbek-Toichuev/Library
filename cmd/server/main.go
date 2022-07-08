@@ -1,6 +1,11 @@
 package main
 
 import (
+	"context"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/Ulukbek-Toychuev/book_shop/internal/server"
 	"github.com/Ulukbek-Toychuev/book_shop/pkg/handler"
 	"github.com/Ulukbek-Toychuev/book_shop/pkg/repository"
@@ -31,8 +36,26 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	srv := new(server.Server)
-	if err = srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		logrus.Fatalf("Error occured while running http server %s", err.Error())
+	go func() {
+		if err = srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+			logrus.Fatalf("Error occured while running http server %s", err.Error())
+		}
+	}()
+
+	logrus.Print("Library app started!")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+
+	logrus.Print("Library app shutdown!")
+
+	if err := srv.Shutdown(context.Background()); err != nil {
+		logrus.Error("Error occured on server shutting down %s", err.Error())
+	}
+
+	if err := db.Close(); err != nil {
+		logrus.Error("Error occured on db connection closed %s", err.Error())
 	}
 }
 
