@@ -14,8 +14,18 @@ type signInInput struct {
 	UserPassword string `json:"password" binding:"required"`
 }
 
-//Обработчик для аутентификации
-
+// @Summary Sign in
+// @Tags auth
+// @Description sign in
+// @ID authentification
+// @Accept  json
+// @Produce  json
+// @Param input body signInInput true "user"
+// @Success 200 {string} string
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/sign-in [post]
 func (h *Handler) SignIn(c *gin.Context) {
 	//Для записи данных из JSON от пользователей
 	var input signInInput
@@ -32,13 +42,24 @@ func (h *Handler) SignIn(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"id":       token,
+		"token":    token,
 		"nickname": input.Nickname,
 	})
 
 }
 
-//Обработчик для регистрации
+// @Summary Sign up
+// @Tags auth
+// @Description create account
+// @ID create-account
+// @Accept  json
+// @Produce  json
+// @Param input body entity.ForSwaggerUserStruct true "account info"
+// @Success 200 {integer} integer 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/sign-up [post]
 func (h *Handler) SignUp(c *gin.Context) {
 	//Для записи данных из JSON от пользователей
 	var input entity.User

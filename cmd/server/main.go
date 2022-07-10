@@ -14,6 +14,20 @@ import (
 	"github.com/spf13/viper"
 )
 
+// @title Library API
+// @version 1.0
+// @description REST API server for Library
+
+// @host localhost:8080
+// @BasePath /
+
+// @license.name  MIT License
+// @license.url   https://opensource.org/licenses/MIT
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
 func main() {
 
 	logrus.SetFormatter(&logrus.JSONFormatter{})
