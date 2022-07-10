@@ -23,8 +23,14 @@
 1. Написан на Go
 2. БД Postgres
 3. Для регистрации используется JWT-токен
+4. Есть Swagger
+
+## Swagger
+
 
 
 ## Как выглядит процесс нагрузочного тестирования?
 
 ![image](https://user-images.githubusercontent.com/67442103/177360112-4b7281bd-3286-493a-92b4-406c23937ade.png)
+
+
