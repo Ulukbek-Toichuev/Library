@@ -27,6 +27,8 @@
 
 ## Swagger
 
+![image](https://user-images.githubusercontent.com/67442103/178162188-c2877021-1610-4a44-a614-20acb460af83.png)
+
 
 
 ## Как выглядит процесс нагрузочного тестирования?
