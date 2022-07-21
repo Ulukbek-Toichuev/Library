@@ -51,7 +51,6 @@ definitions:
     - nickname
     - password
     type: object
-host: localhost:8080
 info:
   contact: {}
   description: REST API server for Library

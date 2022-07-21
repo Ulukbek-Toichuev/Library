@@ -18,7 +18,6 @@ import (
 // @version 1.0
 // @description REST API server for Library
 
-// @host localhost:8080
 // @BasePath /
 
 // @license.name  MIT License

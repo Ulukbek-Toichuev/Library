@@ -1,9 +1,10 @@
 port: "8080"
+swaggerURL: "192.168.31.210:8080"
 
 db:
-  username: "uluk"
-  host: "192.168.31.109"
+  username: "postgres"
+  host: "192.168.31.210"
   port: "5432"
-  dbname: "book_shop"
-  password: "rewq_1424"
+  dbname: "postgres"
+  password: "12345"
   sslmode: "disable"
