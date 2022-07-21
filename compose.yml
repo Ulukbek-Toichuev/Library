@@ -7,9 +7,10 @@ services:
      dockerfile: ./infrastructure/Dockerfile
    restart: always
    container_name: lib-serv
-   network_mode: bridge
    volumes:
      - ./.env:/app/.env
+   network_mode: bridge
+   
   nginx:
     image: nginx:latest
     restart: always
@@ -25,8 +26,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD 12345
     volumes:
-      - ./migrations:/docker-entrypoint-initdb.d
+      #- ./migrations:/docker-entrypoint-initdb.d
       - .:/var/lib/postgresql/data
+    network_mode: bridge
     ports:
       - "5432:5432"
   
