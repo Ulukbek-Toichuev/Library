@@ -1,0 +1,23 @@
+version: "2.6.0"
+
+services:
+  api:
+   build:
+     context: .
+     dockerfile: ./infrastructure/Dockerfile
+   restart: always
+   container_name: lib-serv
+   volumes:
+     - ./.env:/app/.env
+   networks:
+   - myNetwork
+
+networks:
+  myNetwork:
+    driver: bridge
+   
+
+  
+
+  
+ 
