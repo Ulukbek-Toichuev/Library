@@ -15,8 +15,3 @@ RUN go build -o serv main.go
 EXPOSE 8080
 
 CMD ["/app/serv"]
-
-FROM nginx:latest
-COPY ./infrastructure/default.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
