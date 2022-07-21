@@ -18,6 +18,16 @@ services:
     network_mode: bridge
     ports:
       - "80:80"
-
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+    volumes:
+      - ./migrations:/docker-entrypoint-initdb.d
+      - test_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   
  
