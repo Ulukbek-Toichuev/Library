@@ -7,6 +7,7 @@ services:
      dockerfile: ./infrastructure/Dockerfile
    restart: always
    container_name: lib-serv
+   network_mode: bridge
    volumes:
      - ./.env:/app/.env
   nginx:
@@ -14,11 +15,9 @@ services:
     restart: always
     volumes:
     - ./infrastructure/default.conf:/etc/nginx/conf.d/default.conf
+    network_mode: bridge
     ports:
       - "80:80"
-   
-
-  
 
   
  
