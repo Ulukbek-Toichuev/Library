@@ -14,13 +14,12 @@ services:
   nginx:
     image: nginx:latest
     restart: always
+    volumes:
+    - ./infrastructure/default.conf:/etc/nginx/conf.d/default.conf
     networks:
       - myNetwork
-    command: pwd
-    volumes:
-    - ~/test-inf/Library/infrastructure/default.conf /etc/nginx/conf.d/default.conf
     ports:
-      - 80:80
+      - "80:80"
 
 networks:
   myNetwork:
