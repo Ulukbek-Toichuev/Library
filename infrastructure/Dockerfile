@@ -10,7 +10,7 @@ RUN go mod download
 
 COPY . ./
 
-RUN go build -o serv main.go
+RUN go build -o serv cmd/server/main.go
 
 EXPOSE 8080
 
