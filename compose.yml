@@ -7,6 +7,9 @@ services:
      dockerfile: ./infrastructure/Dockerfile
    restart: always
    container_name: lib-serv
+   depends_on:
+    - nginx
+    - pg-database
    volumes:
      - ./.env:/app/.env
    network_mode: bridge
@@ -27,6 +30,7 @@ services:
     volumes:
       - ./migrations/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
       - ./postgres-data:/var/lib/postgresql/data
+    network_mode: bridge
     ports:
       - "5432:5432"
   
