@@ -22,10 +22,11 @@ services:
   pg-database:
     image: postgres:latest
     environment:
-      POSTGRES_PASSWORD: "12345"
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
     volumes:
-      #- ../2. Init Database:/docker-entrypoint-initdb.d
-      - /var/lib/docker/volumes/:/var/lib/postgresql/data
+      - ./migrations/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
   
