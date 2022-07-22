@@ -7,18 +7,19 @@ services:
      dockerfile: ./infrastructure/Dockerfile
    restart: always
    container_name: lib-serv
-   depends_on:
-    - nginx
    volumes:
      - ./.env:/app/.env
-   network_mode: bridge
-   
+   networks:
+        testNetwork:
+            ipv4_address: 172.24.2.2
   nginx:
     image: nginx:latest
     restart: always
     volumes:
     - ./infrastructure/default.conf:/etc/nginx/conf.d/default.conf
-    network_mode: bridge
+    networks:
+        testNetwork:
+            ipv4_address: 172.24.2.3
     ports:
       - "80:80"
   pg-database:
@@ -29,8 +30,15 @@ services:
     volumes:
       - ./migrations/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
       - /var/lib/docker/volumes/postgres-data:/var/lib/postgresql/data
-    network_mode: bridge
+    networks:
+        testNetwork:
+            ipv4_address: 172.24.2.4
     ports:
       - "5432:5432"
-  
- 
+networks:
+      testNetwork:
+          driver: bridge
+          ipam:
+              driver: default
+              config:
+                  - subnet: "172.24.2.0/16"
