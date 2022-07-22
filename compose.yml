@@ -29,7 +29,7 @@ services:
       - POSTGRES_PASSWORD=12345
     volumes:
       - ./migrations/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-      - ./infrastructure/pg_hba.conf:/var/lib/postgresql
+     # - ./infrastructure/pg_hba.conf:/var/lib/postgresql
       - /var/lib/docker/volumes/postgres-data:/var/lib/postgresql/data
     networks:
         testNetwork:
