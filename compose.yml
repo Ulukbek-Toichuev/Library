@@ -9,7 +9,6 @@ services:
    container_name: lib-serv
    depends_on:
     - nginx
-    - pg-database
    volumes:
      - ./.env:/app/.env
    network_mode: bridge
