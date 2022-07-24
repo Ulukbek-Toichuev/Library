@@ -5,12 +5,14 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+        "time"
 
 	"github.com/Ulukbek-Toychuev/book_shop/internal/server"
 	"github.com/Ulukbek-Toychuev/book_shop/pkg/handler"
 	"github.com/Ulukbek-Toychuev/book_shop/pkg/repository"
 	"github.com/Ulukbek-Toychuev/book_shop/pkg/service"
-	"github.com/sirupsen/logrus"
+	
+        "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -28,6 +30,7 @@ import (
 // @name Authorization
 
 func main() {
+        time.Sleep(5 * time.Second)
 
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 

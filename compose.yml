@@ -2,44 +2,34 @@ version: "2.6.0"
 
 services:
   api:
-   build:
-     context: .
-     dockerfile: ./infrastructure/Dockerfile
-   restart: always
-   container_name: lib-serv
-   volumes:
-     - ./.env:/app/.env
-   networks:
-        testNetwork:
-            ipv4_address: 172.24.2.2
+    build:
+      context: .
+      dockerfile: ./infrastructure/Dockerfile
+    restart: always
+    depends_on:
+      - pg-database
+    container_name: lib-serv
+    network_mode: bridge
+  
   nginx:
     image: nginx:latest
     restart: always
     volumes:
-    - ./infrastructure/default.conf:/etc/nginx/conf.d/default.conf
-    networks:
-        testNetwork:
-            ipv4_address: 172.24.2.3
+      - ./infrastructure/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
+    network_mode: bridge
+  
   pg-database:
     image: postgres:latest
+    depends_on:
+      - nginx
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
     volumes:
       - ./migrations/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-     # - ./infrastructure/pg_hba.conf:/var/lib/postgresql
-      - /var/lib/docker/volumes/postgres-data:/var/lib/postgresql/data
-    networks:
-        testNetwork:
-            ipv4_address: 172.24.2.4
+      - ./.database/postgresql/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-networks:
-      testNetwork:
-          driver: bridge
-          ipam:
-              driver: default
-              config:
-                  - subnet: "172.24.2.0/16"
+    network_mode: bridge
