@@ -1,26 +1,27 @@
 version: "2.6.0"
 
 services:
+  #rest api application
   api:
     build:
       context: .
-      dockerfile: ./infrastructure/Dockerfile
+      dockerfile: ./configs/Dockerfile
     restart: always
     depends_on:
-      - pg-database
+      - postgresdb
     container_name: lib-serv
-    network_mode: bridge
-  
+
+  #nginx
   nginx:
     image: nginx:latest
     restart: always
     volumes:
-      - ./infrastructure/default.conf:/etc/nginx/conf.d/default.conf
+      - ./configs/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
-    network_mode: bridge
-  
-  pg-database:
+
+  #database
+  postgresdb:
     image: postgres:latest
     depends_on:
       - nginx
@@ -29,7 +30,70 @@ services:
       - POSTGRES_PASSWORD=12345
     volumes:
       - ./migrations/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-      - ./.database/postgresql/data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    network_mode: bridge
+
+    depends_on:
+      - nginx
+  #grafana
+#  grafana:
+#    image: grafana/grafana:latest-ubuntu
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - grafana-data:/var/lib/grafana
+#      - grafana-configs:/etc/grafana
+#    networks:
+#      - hueta
+#    depends_on:
+#      - api
+
+  #prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - prom-data:/prometheus
+      - prom-configs:/etc/prometheus
+    depends_on:
+      - api
+
+  #node exporter
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    depends_on:
+      - api
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude'
+      - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+
+  #postgres exporter
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    ports:
+      - "9187:9187"
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:12345@postgresdb:5432/postgres?sslmode=disable"
+    links:
+      - postgresdb
+      - prometheus
+    depends_on:
+      - api
+
+#All volumes
+volumes:
+  grafana-data:
+  grafana-configs:
+  prom-data:
+  prom-configs:
+  postgres-data:
