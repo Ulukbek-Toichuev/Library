@@ -33,65 +33,39 @@ sudo apt install net-tools
 ```console
 sudo apt install git
 ```
-- **go**
-```console
-sudo apt install golang
-```
-- **postgres**
-```console
-sudo apt install postgresql postgresql-contrib
-```
-- **prometheus**
 
-### 4. Настройте СУБД
-1. **postgresql.conf** и **pg_hba.conf**
 
-Найдите директорию **main**, в ней хранятся конфиг файлы постгреса, опычно путь до ней такой:
-```console
-ls /etc/postgresql/14/main
-```
+- **docker**
+1. Как устанавливать:
 
-Отредактируйте файл postgresql.conf
-```console
-sudo nano /etc/postgresql/14/main/postgresql.conf
-```
-Вам нужно изменить поле listen_addresses как показано на скриншоте
+https://docs.docker.com/engine/install/ubuntu/
 
-![image](https://user-images.githubusercontent.com/67442103/179586118-38a83072-a811-4faf-8a1f-ab6bfc0ad9c9.png)
+2. Что нужно сделать после установки, так называемый Post install
 
-Отредактируйте файл pg_hba.conf
-```console
-sudo nano /etc/postgresql/14/main/pg_hba.conf
-```
-Вам нужно в конце файла добавить следующую строку
+https://docs.docker.com/engine/install/linux-postinstall/
 
-![image](https://user-images.githubusercontent.com/67442103/179594575-53865a80-f7be-4df8-aa0c-b9853ce45a12.png)
-
-2. Перезагрузите Postgres чтобы применились все изменения
-
-Статус работы сервиса можете посмотреть с помощью следующей команды
-```console
-systemctl status postgres
-```
-Перезагрузите следующим образом
-```console
-sudo systemctl restart postgresql
-```
-
-3. Измените пароль для пользователя **postgres**
-
-Подключиться к СУБД через терминал можно с помощью следующей команды
+### 4. Склонируйте репозиторий Library
 
 ```console
-sudo -u postgres psql
+git clone https://github.com/Ulukbek-Toychuev/Library.git
 ```
 
-Поменяйте пароль с помощью следующего **SQL** запроса
+### 5. Перейдите в директорию Library и разверните среду с помощью Docker
 
-![image](https://user-images.githubusercontent.com/67442103/179604894-3163dde7-41e8-40d3-8270-7cf91a0e9a07.png)
+```console
+docker compose up -d
+```
 
-### 5. Создайте Новую Базу данных
+### 6. Проверьте работоспособность компонентов
 
-Для этого подключитесь к СУБД с помощью **DBeaver**
+1. Откройте prometheus через http://host-ip:9090
 
-![image](https://user-images.githubusercontent.com/67442103/179607910-8ede41c1-3973-42c8-b0b8-ebbfe0463e07.png)
+Все инстансы должны быть отмечены зеленым цветом и словом UP
+
+2. Подключите grafana (дополнительно установите если у вас его нет) к prometheus
+
+3. Подключитесь к БД через dbeaver, у вас должны быть таблицы **users, books, user_books**
+
+4. Отправьте запрос через swagger, расположен по адресу http://host-ip/swagger/index.html
+
+5. Отправьте запрос через Postman, коллекцию можете импортировать, она расположена в папке **test**
