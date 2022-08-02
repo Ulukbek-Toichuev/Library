@@ -24,8 +24,10 @@
 2. БД Postgres
 3. Для регистрации используется JWT-токен
 4. Есть Swagger
+5. Работает в docker compose
 
 ## Swagger
+доступен по адресу http://<host_ip>/swagger/index.html
 
 ![image](https://user-images.githubusercontent.com/67442103/178162188-c2877021-1610-4a44-a614-20acb460af83.png)
 
