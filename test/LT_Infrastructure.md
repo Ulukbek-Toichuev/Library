@@ -45,6 +45,14 @@ https://docs.docker.com/engine/install/ubuntu/
 
 https://docs.docker.com/engine/install/linux-postinstall/
 
+**ВНИМАНИЕ!**
+
+Если вы хотите не заморачиваться, то просто запустите скрипт docker.sh который лежит в папке **configs**
+
+**ВНИМАНИЕ!№2**
+В АРГУМЕНТАХ СКРИПТА ПЕРЕДАЙТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ ПОД КОТОРЫМ ВЫ ЗАЛОГИНИЛИСЬ В LINUX
+
+
 ### 4. Склонируйте репозиторий Library
 
 ```console
