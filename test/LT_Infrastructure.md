@@ -67,6 +67,14 @@ docker compose up -d
 
 2. Подключите grafana (дополнительно установите если у вас его нет) к prometheus
 
+![image](https://user-images.githubusercontent.com/67442103/182325333-8574349b-56a7-4a31-93f9-eb16cb2dbc6c.png)
+
+Так же для вас есть готовые дашборды для node exporter, postgres exporter
+
+https://grafana.com/grafana/dashboards/1860
+
+https://grafana.com/grafana/dashboards/9628
+
 3. Подключитесь к БД через dbeaver, у вас должны быть таблицы **users, books, users_books**
 
 ![image](https://user-images.githubusercontent.com/67442103/182324776-81cb0b8f-6eb5-4443-b98e-57d786172f3e.png)
