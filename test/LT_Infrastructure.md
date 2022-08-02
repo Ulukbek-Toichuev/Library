@@ -62,9 +62,15 @@ docker compose up -d
 
 Все инстансы должны быть отмечены зеленым цветом и словом UP
 
+![image](https://user-images.githubusercontent.com/67442103/182324449-60940628-3310-451d-8f2f-bcfaa675aa80.png)
+
+
 2. Подключите grafana (дополнительно установите если у вас его нет) к prometheus
 
-3. Подключитесь к БД через dbeaver, у вас должны быть таблицы **users, books, user_books**
+3. Подключитесь к БД через dbeaver, у вас должны быть таблицы **users, books, users_books**
+
+![image](https://user-images.githubusercontent.com/67442103/182324776-81cb0b8f-6eb5-4443-b98e-57d786172f3e.png)
+
 
 4. Отправьте запрос через swagger, расположен по адресу http://host-ip/swagger/index.html
 
