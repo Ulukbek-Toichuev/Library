@@ -54,7 +54,7 @@ git clone https://github.com/Ulukbek-Toychuev/Library.git
 ### 5. Перейдите в директорию Library и разверните среду с помощью Docker
 
 ```console
-docker compose up -d
+cd library && docker compose up -d
 ```
 
 ### 6. Проверьте работоспособность компонентов
@@ -84,3 +84,6 @@ https://grafana.com/grafana/dashboards/9628
 #### 4. Отправьте запрос через swagger, расположен по адресу http://host-ip/swagger/index.html
 
 #### 5. Отправьте запрос через Postman, коллекцию можете импортировать, она расположена в папке **test**
+
+
+### 7. Если у вас указанные пункты работают, поздравляем, вы развернули тестовую среду. Можете приступать к проведению нагрузочного тестирования.
