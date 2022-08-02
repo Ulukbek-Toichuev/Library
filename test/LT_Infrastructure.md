@@ -58,14 +58,14 @@ docker compose up -d
 
 ### 6. Проверьте работоспособность компонентов
 
-1. Откройте prometheus через http://host-ip:9090
+#### 1. Откройте prometheus через http://host-ip:9090
 
 Все инстансы должны быть отмечены зеленым цветом и словом UP
 
 ![image](https://user-images.githubusercontent.com/67442103/182324449-60940628-3310-451d-8f2f-bcfaa675aa80.png)
 
 
-2. Подключите grafana (дополнительно установите если у вас его нет) к prometheus
+#### 2. Подключите grafana (дополнительно установите если у вас его нет) к prometheus
 
 ![image](https://user-images.githubusercontent.com/67442103/182325333-8574349b-56a7-4a31-93f9-eb16cb2dbc6c.png)
 
@@ -75,11 +75,11 @@ https://grafana.com/grafana/dashboards/1860
 
 https://grafana.com/grafana/dashboards/9628
 
-3. Подключитесь к БД через dbeaver, у вас должны быть таблицы **users, books, users_books**
+#### 3. Подключитесь к БД через dbeaver, у вас должны быть таблицы **users, books, users_books**
 
 ![image](https://user-images.githubusercontent.com/67442103/182324776-81cb0b8f-6eb5-4443-b98e-57d786172f3e.png)
 
 
-4. Отправьте запрос через swagger, расположен по адресу http://host-ip/swagger/index.html
+#### 4. Отправьте запрос через swagger, расположен по адресу http://host-ip/swagger/index.html
 
-5. Отправьте запрос через Postman, коллекцию можете импортировать, она расположена в папке **test**
+#### 5. Отправьте запрос через Postman, коллекцию можете импортировать, она расположена в папке **test**
