@@ -38,3 +38,6 @@
 ![image](https://user-images.githubusercontent.com/67442103/177360112-4b7281bd-3286-493a-92b4-406c23937ade.png)
 
 
+## Как развернуть приложение?
+
+[Справочник](https://github.com/Ulukbek-Toychuev/Library/blob/main/test/LT_Infrastructure.md)
