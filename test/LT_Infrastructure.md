@@ -11,7 +11,7 @@
 
 ## Шаги для развертывания тестовой среды
 
-### 1. Запустите на **VirtualBox** Linux дистрибутив **Ubuntu Server**
+### 1. Запустите на **VirtualBox/VMware** Linux дистрибутив **Ubuntu Server**
 Материалы:
 
 Где скачать: https://ubuntu.com/download/server/
@@ -20,12 +20,7 @@
 
 Мануал №2: https://www.linuxtechi.com/install-ubuntu-server-22-04-step-by-step/
 
-### 2. Для удобства работы используйте SSH
-
-![image](https://user-images.githubusercontent.com/67442103/179555998-2b4b85ea-bcfc-4376-b294-c749e4b1651c.png)
-
-
-### 3. Установите следующие пакеты
+### 2. Проверьте на наличие следующих пакетов (при отсутствии установите их, команды указаны ниже)
 - **net-tools**
 ```console
 sudo apt install net-tools
@@ -34,7 +29,6 @@ sudo apt install net-tools
 ```console
 sudo apt install git
 ```
-
 
 - **docker**
 1. Как устанавливать:
@@ -45,13 +39,19 @@ https://docs.docker.com/engine/install/ubuntu/
 
 https://docs.docker.com/engine/install/linux-postinstall/
 
-**ВНИМАНИЕ!**
+**ВНИМАНИЕ! №1**
 
-Если вы хотите не заморачиваться, то просто запустите скрипт docker.sh который лежит в папке **configs**
+Если вы хотите не заморачиваться, то склонируйте репозиторий (команда такая же как в пункте 4) и запустите скрипт docker.sh который лежит в папке **configs**
 
-**ВНИМАНИЕ!№2**
+**ВНИМАНИЕ! №2**
 В АРГУМЕНТАХ СКРИПТА ПЕРЕДАЙТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ ПОД КОТОРЫМ ВЫ ЗАЛОГИНИЛИСЬ В LINUX
 
+### 3. Для удобства работы используйте SSH
+Для того чтобы узнать IP адрес виртуальной машины, используйте **ifconfig**
+```console
+ifconfig
+```
+![image](https://user-images.githubusercontent.com/67442103/179555998-2b4b85ea-bcfc-4376-b294-c749e4b1651c.png)
 
 ### 4. Склонируйте репозиторий Library
 
@@ -74,7 +74,9 @@ cd library && docker compose up -d
 ![image](https://user-images.githubusercontent.com/67442103/182324449-60940628-3310-451d-8f2f-bcfaa675aa80.png)
 
 
-#### 2. Подключите grafana (дополнительно установите если у вас его нет) к prometheus
+#### 2. Подключите grafana к prometheus
+
+Рекомендуется установить **Grafana** на хост систему (то есть на ту где у вас работает виртуальная машина)
 
 ![image](https://user-images.githubusercontent.com/67442103/182325333-8574349b-56a7-4a31-93f9-eb16cb2dbc6c.png)
 
@@ -86,12 +88,25 @@ https://grafana.com/grafana/dashboards/9628
 
 #### 3. Подключитесь к БД через dbeaver, у вас должны быть таблицы **users, books, users_books**
 
+Пользователь: **postgres**
+
+База данных: **postgres**
+
+Пароль: **12345**
+
+Адрес: **ip адрес виртуальный машины**
+
+Порт: **5432**
+
 ![image](https://user-images.githubusercontent.com/67442103/182324776-81cb0b8f-6eb5-4443-b98e-57d786172f3e.png)
 
 
-#### 4. Отправьте запрос через swagger, расположен по адресу http://host-ip/swagger/index.html
+#### 4. Проверьте работоспособность Swagger
+Отправьте запрос через swagger, расположен по адресу http://host-ip/swagger/index.html
 
-#### 5. Отправьте запрос через Postman, коллекцию можете импортировать, она расположена в папке **test**
+
+#### 5. Проверьте работоспособность самого сервиса
+Отправьте запрос через Postman, коллекцию можете импортировать, она расположена в папке **test**
 
 
 ### 7. Если у вас указанные пункты работают, поздравляем, вы развернули тестовую среду. Можете приступать к проведению нагрузочного тестирования.
