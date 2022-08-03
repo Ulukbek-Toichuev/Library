@@ -18,7 +18,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 groupadd docker
-echo $1
+echo "This user will be add to docker group: " $1
 sudo usermod -aG docker $1
 
 sudo reboot
