@@ -54,6 +54,9 @@ https://docs.docker.com/engine/install/linux-postinstall/
 ```console
 ifconfig
 ```
+
+Вот так выглядит подключение через SSH:
+
 ![image](https://user-images.githubusercontent.com/67442103/179555998-2b4b85ea-bcfc-4376-b294-c749e4b1651c.png)
 
 
