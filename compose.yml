@@ -107,6 +107,20 @@ services:
     #networks:
     #  - net
 
+  #cadvisor exporter
+  cadvisor-exporter:
+    image: gcr.io/cadvisor/cadvisor:latest
+    restart: always
+    command:
+      - '-port=8081'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - api
+
   #nginx exporter
 #  nginx-exporter:
 #    image: nginx/nginx-prometheus-exporter
